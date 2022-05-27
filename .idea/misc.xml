@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/transaction_layout.xml" value="0.2947916666666667" />
       </map>
     </option>
   </component>
