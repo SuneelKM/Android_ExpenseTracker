@@ -1,4 +1,4 @@
-package com.alterpat.budgettracker
+package com.example.expensetracker
 
 
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import com.example.expensetracker.R
 import com.example.expensetracker.Transaction
 import kotlin.math.abs
 
-class TransactionAdapter(private var transactions: ArrayList<Transaction>) :
+class TransactionAdapter(private var transactions: List<Transaction>) :
     RecyclerView.Adapter<TransactionAdapter.TransactionHolder>() {
 
     class TransactionHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -44,5 +44,9 @@ class TransactionAdapter(private var transactions: ArrayList<Transaction>) :
         return transactions.size
     }
 
+    fun setData(transactions: List<Transaction>){
+        this.transactions = transactions
+        notifyDataSetChanged()
+    }
 
 }
