@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
             undoDelete()
         }
             .setActionTextColor(ContextCompat.getColor(this, R.color.red))
-            .setTextColor(ContextCompat.getColor(this, R.color.white))
+            .setTextColor(ContextCompat.getColor(this, R.color.teal_700))
             .show()
     }
 
