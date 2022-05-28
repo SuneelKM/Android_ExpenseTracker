@@ -3,15 +3,21 @@ package com.example.expensetracker
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var transactions: List<Transaction>
+    private lateinit var deletedTransaction: Transaction
+    private lateinit var transactions : List<Transaction>
+    private lateinit var oldTransactions : List<Transaction>
     private lateinit var transactionAdapter: TransactionAdapter
     private lateinit var db: AppDatabase
 
@@ -25,16 +31,30 @@ class MainActivity : AppCompatActivity() {
 
         db = Room.databaseBuilder(this, AppDatabase::class.java, "transactions").build()
 
-//        db = Room.databaseBuilder(this,
-//        AppDatabase::class.java,
-//        "transactions").build()
-        println("HELLO I AM 2")
+
 
         transactionAdapter = TransactionAdapter(transactions)
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
         recyclerView.adapter = transactionAdapter
 
 
+        // swipe to remove
+        val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                deleteTransaction(transactions[viewHolder.adapterPosition])
+            }
+
+        }
+        val swipeHelper = ItemTouchHelper(itemTouchHelper)
+        swipeHelper.attachToRecyclerView(recyclerview)
 
         addBtn.setOnClickListener{
             val intent = Intent(this, AddTransactionActivity::class.java)
@@ -64,6 +84,46 @@ class MainActivity : AppCompatActivity() {
         balance.text = "$ %.2f".format(totalAmount)
         budget.text = "$ %.2f".format(budgetAmount)
         expense.text = "$ %.2f".format(expenseAmount)
+    }
+
+    private fun undoDelete(){
+        GlobalScope.launch {
+            db.transactionDao().insertAll(deletedTransaction)
+
+            transactions = oldTransactions
+
+            runOnUiThread {
+                transactionAdapter.setData(transactions)
+                updateDashboard()
+            }
+        }
+    }
+
+    private fun showSnackbar(){
+        val view = findViewById<View>(R.id.coordinator)
+        val snackbar = Snackbar.make(view, "Transaction deleted!", Snackbar.LENGTH_LONG)
+        snackbar.setAction("Undo"){
+            undoDelete()
+        }
+            .setActionTextColor(ContextCompat.getColor(this, R.color.red))
+            .setTextColor(ContextCompat.getColor(this, R.color.white))
+            .show()
+    }
+
+    private fun deleteTransaction(transaction: Transaction){
+        deletedTransaction = transaction
+        oldTransactions = transactions
+
+        GlobalScope.launch {
+            db.transactionDao().delete(transaction)
+
+            transactions = transactions.filter { it.id != transaction.id }
+            runOnUiThread {
+                updateDashboard()
+                transactionAdapter.setData(transactions)
+                showSnackbar()
+            }
+        }
     }
 
     override fun onResume() {

@@ -1,6 +1,7 @@
 package com.example.expensetracker
 
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,11 @@ class TransactionAdapter(private var transactions: List<Transaction>) :
         }
 
         holder.label.text = transaction.label
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, DetailedActivity::class.java)
+            intent.putExtra("transaction", transaction)
+            context.startActivity(intent)
+        }
 
     }
 
