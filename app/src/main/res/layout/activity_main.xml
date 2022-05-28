@@ -138,6 +138,7 @@
             android:backgroundTint="@color/red"
             android:src="@drawable/ic_add"
             app:borderWidth="0dp"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            android:contentDescription="TODO" />
     </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

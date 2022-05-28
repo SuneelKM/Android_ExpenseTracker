@@ -3,8 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/close_bg.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/description_selector.xml" value="0.1335" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_baseline_label_24.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/ic_description.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/ic_description_focused.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/ic_label.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/ic_label_focused.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/ic_money_focused.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/label_selector.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/money_selector.xml" value="0.1335" />
+        <entry key="app/src/main/res/layout/activity_add_transaction.xml" value="0.2947916666666667" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
         <entry key="app/src/main/res/layout/transaction_layout.xml" value="0.2947916666666667" />
       </map>
     </option>
