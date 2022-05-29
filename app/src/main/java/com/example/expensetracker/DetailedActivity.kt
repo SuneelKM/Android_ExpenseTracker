@@ -2,14 +2,13 @@ package com.example.expensetracker
 
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
-import androidx.room.Room
-import kotlinx.android.synthetic.main.activity_add_transaction.*
 import kotlinx.android.synthetic.main.activity_add_transaction.amountInput
 import kotlinx.android.synthetic.main.activity_add_transaction.amountLayout
 import kotlinx.android.synthetic.main.activity_add_transaction.closeBtn
@@ -17,11 +16,9 @@ import kotlinx.android.synthetic.main.activity_add_transaction.descriptionInput
 import kotlinx.android.synthetic.main.activity_add_transaction.labelInput
 import kotlinx.android.synthetic.main.activity_add_transaction.labelLayout
 import kotlinx.android.synthetic.main.activity_detailed.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class DetailedActivity : AppCompatActivity() {
-    private lateinit var transaction : Transaction
+    private lateinit var transaction: Transaction
     lateinit var vm: TransactionViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,19 +41,13 @@ class DetailedActivity : AppCompatActivity() {
         }
 
         labelInput.addTextChangedListener {
-            updateBtn.visibility = View.VISIBLE
-            if(it!!.isNotEmpty())
+            if (it!!.isNotEmpty())
                 labelLayout.error = null
         }
 
         amountInput.addTextChangedListener {
-            updateBtn.visibility = View.VISIBLE
-            if(it!!.isNotEmpty())
+            if (it!!.isNotEmpty())
                 amountLayout.error = null
-        }
-
-        descriptionInput.addTextChangedListener {
-            updateBtn.visibility = View.VISIBLE
         }
 
         updateBtn.setOnClickListener {
@@ -64,26 +55,37 @@ class DetailedActivity : AppCompatActivity() {
             val description = descriptionInput.text.toString()
             val amount = amountInput.text.toString().toDoubleOrNull()
 
-            if(label.isEmpty())
+            if (label.isEmpty())
                 labelLayout.error = "Please enter a valid label"
-
-            else if(amount == null)
+            else if (amount == null)
                 amountLayout.error = "Please enter a valid amount"
             else {
-                val transaction  = Transaction(transaction.id, label, amount, description)
-                update(transaction)
+                val transaction = Transaction(transaction.id, label, amount, description)
+                vm.updateTransactions(transaction)
+                startActivity(Intent(this, MainActivity::class.java))
             }
+        }
+
+        deleteBtn.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Confirm Delete")
+            builder.setMessage("Are you sure you want to delete this item?")
+            builder.setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, i ->
+                vm.deleteTransactions(transaction)
+                dialog.cancel()
+                startActivity(Intent(this, MainActivity::class.java))
+            })
+            builder.setNegativeButton("No", DialogInterface.OnClickListener { dialog, i ->
+                dialog.cancel()
+            })
+
+            builder.create().show()
+
         }
 
         closeBtn.setOnClickListener {
             finish()
         }
-    }
-
-    private fun update(transaction: Transaction) {
-        vm.updateTransactions(transaction)
-        val intentMain = Intent(this, MainActivity::class.java)
-        startActivity(intentMain)
     }
 
 }

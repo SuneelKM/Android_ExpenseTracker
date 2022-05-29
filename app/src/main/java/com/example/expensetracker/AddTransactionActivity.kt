@@ -1,12 +1,11 @@
 package com.example.expensetracker
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.widget.addTextChangedListener
-import androidx.room.Room
 import kotlinx.android.synthetic.main.activity_add_transaction.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+
 
 class AddTransactionActivity : AppCompatActivity() {
 

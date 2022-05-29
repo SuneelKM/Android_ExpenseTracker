@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.launch
 
 class TransactionViewModel(app: Application):AndroidViewModel(app){
