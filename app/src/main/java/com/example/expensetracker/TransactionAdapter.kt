@@ -12,7 +12,7 @@ import com.example.expensetracker.R
 import com.example.expensetracker.Transaction
 import kotlin.math.abs
 
-class TransactionAdapter(private var transactions: List<Transaction>) :
+class TransactionAdapter(private var transactions: ArrayList<Transaction>) :
     RecyclerView.Adapter<TransactionAdapter.TransactionHolder>() {
 
     class TransactionHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -50,8 +50,9 @@ class TransactionAdapter(private var transactions: List<Transaction>) :
         return transactions.size
     }
 
-    fun setData(transactions: List<Transaction>){
-        this.transactions = transactions
+    fun getTransactions(transaction: List<Transaction>) {
+        this.transactions.clear()
+        this.transactions.addAll(transaction)
         notifyDataSetChanged()
     }
 

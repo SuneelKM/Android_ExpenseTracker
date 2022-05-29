@@ -9,5 +9,4 @@ data class Transaction(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val label: String,
     val amount: Double,
-    val description: String): Serializable {
-}
+    val description: String): Serializable

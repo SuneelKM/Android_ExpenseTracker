@@ -1,4 +1,5 @@
 package com.example.expensetracker
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.widget.addTextChangedListener
@@ -8,17 +9,22 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class AddTransactionActivity : AppCompatActivity() {
+
+    lateinit var vm: TransactionViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_transaction)
 
+        vm = TransactionViewModel(application)
+
         labelInput.addTextChangedListener {
-            if(it!!.count() > 0)
+            if(it!!.isNotEmpty())
                 labelLayout.error = null
         }
 
         amountInput.addTextChangedListener {
-            if(it!!.count() > 0)
+            if(it!!.isNotEmpty())
                 amountLayout.error = null
         }
 
@@ -43,15 +49,10 @@ class AddTransactionActivity : AppCompatActivity() {
         }
     }
 
-    private fun insert(transaction: Transaction){
-        val db = Room.databaseBuilder(this,
-            AppDatabase::class.java,
-            "transactions").build()
-
-        GlobalScope.launch {
-            db.transactionDao().insertAll(transaction)
-            finish()
-        }
+    private fun insert(transaction: Transaction) {
+        vm.insertTransaction(transaction)
+        val intentMain = Intent(this, MainActivity::class.java)
+        startActivity(intentMain)
     }
 
 }

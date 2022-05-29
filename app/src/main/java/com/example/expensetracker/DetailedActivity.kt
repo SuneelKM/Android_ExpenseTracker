@@ -2,6 +2,7 @@ package com.example.expensetracker
 
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -21,10 +22,12 @@ import kotlinx.coroutines.launch
 
 class DetailedActivity : AppCompatActivity() {
     private lateinit var transaction : Transaction
+    lateinit var vm: TransactionViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detailed)
+        vm = TransactionViewModel(application)
 
         transaction = intent.getSerializableExtra("transaction") as Transaction
 
@@ -42,13 +45,13 @@ class DetailedActivity : AppCompatActivity() {
 
         labelInput.addTextChangedListener {
             updateBtn.visibility = View.VISIBLE
-            if(it!!.count() > 0)
+            if(it!!.isNotEmpty())
                 labelLayout.error = null
         }
 
         amountInput.addTextChangedListener {
             updateBtn.visibility = View.VISIBLE
-            if(it!!.count() > 0)
+            if(it!!.isNotEmpty())
                 amountLayout.error = null
         }
 
@@ -62,7 +65,7 @@ class DetailedActivity : AppCompatActivity() {
             val amount = amountInput.text.toString().toDoubleOrNull()
 
             if(label.isEmpty())
-                labelLayout.error = "Please neter a valid label"
+                labelLayout.error = "Please enter a valid label"
 
             else if(amount == null)
                 amountLayout.error = "Please enter a valid amount"
@@ -77,15 +80,10 @@ class DetailedActivity : AppCompatActivity() {
         }
     }
 
-    private fun update(transaction: Transaction){
-        val db = Room.databaseBuilder(this,
-            AppDatabase::class.java,
-            "transactions").build()
-
-        GlobalScope.launch {
-            db.transactionDao().update(transaction)
-            finish()
-        }
+    private fun update(transaction: Transaction) {
+        vm.updateTransactions(transaction)
+        val intentMain = Intent(this, MainActivity::class.java)
+        startActivity(intentMain)
     }
 
 }
