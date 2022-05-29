@@ -1,10 +1,21 @@
 package com.example.expensetracker
 
+import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.addTextChangedListener
 import kotlinx.android.synthetic.main.activity_add_transaction.*
+import kotlinx.android.synthetic.main.activity_add_transaction.amountInput
+import kotlinx.android.synthetic.main.activity_add_transaction.amountLayout
+import kotlinx.android.synthetic.main.activity_add_transaction.closeBtn
+import kotlinx.android.synthetic.main.activity_add_transaction.descriptionInput
+import kotlinx.android.synthetic.main.activity_add_transaction.labelInput
+import kotlinx.android.synthetic.main.activity_add_transaction.labelLayout
+import java.util.*
 
 
 class AddTransactionActivity : AppCompatActivity() {
@@ -16,6 +27,14 @@ class AddTransactionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_transaction)
 
         vm = TransactionViewModel(application)
+
+        addRootView.setOnClickListener {
+            this.window.decorView.clearFocus()
+
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(it.windowToken, 0)
+        }
+
 
         labelInput.addTextChangedListener {
             if(it!!.isNotEmpty())
@@ -30,7 +49,8 @@ class AddTransactionActivity : AppCompatActivity() {
         addTransactionBtn.setOnClickListener {
             val label = labelInput.text.toString()
             val description = descriptionInput.text.toString()
-            val amount = amountInput.text.toString().toDoubleOrNull()
+            var amount = amountInput.text.toString().toDoubleOrNull()
+
 
             if(label.isEmpty())
                 labelLayout.error = "Please enter a valid label"
@@ -38,6 +58,9 @@ class AddTransactionActivity : AppCompatActivity() {
             else if(amount == null)
                 amountLayout.error = "Please enter a valid amount"
             else {
+                if(expense.isChecked){
+                    amount = -amount
+                }
                 val transaction  =Transaction(0, label, amount, description)
                 insert(transaction)
             }
@@ -46,6 +69,31 @@ class AddTransactionActivity : AppCompatActivity() {
         closeBtn.setOnClickListener {
             finish()
         }
+
+
+        calendarDate.setText(SimpleDateFormat("dd MMM yyyy").format(System.currentTimeMillis()))
+
+        var cal = Calendar.getInstance()
+
+        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            cal.set(Calendar.YEAR, year)
+            cal.set(Calendar.MONTH, monthOfYear)
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+            val myFormat = "dd MMM yyyy"
+            val sdf = SimpleDateFormat(myFormat, Locale.US)
+            calendarDate.setText(sdf.format(cal.time))
+
+        }
+
+        calendarDate.setOnClickListener {
+            DatePickerDialog(this, dateSetListener,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)).show()
+        }
+
+
     }
 
     private fun insert(transaction: Transaction) {

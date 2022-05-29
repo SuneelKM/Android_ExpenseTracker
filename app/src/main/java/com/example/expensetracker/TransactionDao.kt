@@ -8,12 +8,14 @@ interface TransactionDao {
     @Query("SELECT * from transactions")
     fun getAll(): LiveData<List<Transaction>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(transaction: Transaction)
 
-    @Delete
-    fun delete(transaction: Transaction)
+    @Query("DELETE from transactions WHERE id = :transactionId")
+    fun delete(transactionId: Int)
 
     @Update
     fun update(transaction: Transaction)
+
+
 }

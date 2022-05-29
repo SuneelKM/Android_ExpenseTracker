@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 class TransactionViewModel(app: Application):AndroidViewModel(app){
     private val repo: TransactionRepository
     val allTransactions : LiveData<List<Transaction>>?
-   var totalAmount = 0.0
+    var totalAmount = 0.0
     var budgetAmount = 0.0
     var expenseAmount = 0.0
 
@@ -24,12 +24,15 @@ class TransactionViewModel(app: Application):AndroidViewModel(app){
     fun insertTransaction(transaction: Transaction) = viewModelScope.launch {
         repo.insertAll(transaction)
     }
-    fun deleteTransactions(transaction: Transaction) = viewModelScope.launch {
-        repo.delete(transaction)
+    fun deleteTransactions(transactionId: Int) = viewModelScope.launch {
+        repo.delete(transactionId)
     }
     fun updateTransactions(transaction: Transaction) = viewModelScope.launch {
         repo.update(transaction)
     }
+
+
+
 
     fun updateDashboard(transactions: List<Transaction>) {
         totalAmount = transactions.map { it.amount }.sum()

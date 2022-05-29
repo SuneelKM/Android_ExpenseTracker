@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <RelativeLayout
 
         android:layout_width="match_parent"
@@ -25,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:text="Total Balance"
                 android:textAllCaps="true"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -33,13 +34,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="$300"
-                android:textSize="32sp"
+                android:textSize="27sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/dashboard"
-            android:layout_width="match_parent"
+            android:layout_width="402dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/balance_layout"
             android:layout_marginStart="10dp"
@@ -69,7 +70,7 @@
                         android:layout_height="wrap_content"
                         android:text="$400"
                         android:textColor="@color/green"
-                        android:textSize="32sp"
+                        android:textSize="25sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -77,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:text="Budget"
                         android:textAllCaps="true"
-                        android:textSize="17sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -93,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:text="$400"
                         android:textColor="@color/red"
-                        android:textSize="32sp"
+                        android:textSize="25sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -101,10 +102,12 @@
                         android:layout_height="wrap_content"
                         android:text="Expense"
                         android:textAllCaps="true"
-                        android:textSize="17sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+
 
         <TextView
             android:id="@+id/recyclerview_title"
@@ -118,10 +121,12 @@
             android:textSize="17sp"
             android:textStyle="bold" />
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/addBtn"
             android:layout_below="@id/recyclerview_title"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
@@ -140,5 +145,7 @@
             app:borderWidth="0dp"
             app:tint="@color/white"
             android:contentDescription="TODO" />
+
+        
     </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -12,18 +12,18 @@ class TransactionRepository(context: Context) {
         return db?.getAll()
     }
 
-    fun insertAll(transaction: Transaction){
+    suspend fun insertAll(transaction: Transaction){
         db?.insertAll(transaction)
     }
 
-    fun delete(transaction: Transaction) {
+    suspend fun delete(transaction: Int) {
         db?.delete(transaction)
     }
 
-
-    fun update(transaction: Transaction){
+    suspend fun update(transaction: Transaction){
         db?.update(transaction)
     }
+
 
 }
 

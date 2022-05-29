@@ -40,7 +40,10 @@ class TransactionAdapter(private var transactions: ArrayList<Transaction>) :
         holder.label.text = transaction.label
         holder.itemView.setOnClickListener {
             val intent = Intent(context, DetailedActivity::class.java)
-            intent.putExtra("transaction", transaction)
+            intent.putExtra("transactionId", transaction.id)
+            intent.putExtra("label", transaction.label)
+            intent.putExtra("amount", transaction.amount)
+            intent.putExtra("description", transaction.description)
             context.startActivity(intent)
         }
 
