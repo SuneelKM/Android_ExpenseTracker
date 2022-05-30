@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.expensetracker.R
 import com.example.expensetracker.Transaction
+import kotlinx.android.synthetic.main.activity_add_transaction.*
 import kotlin.math.abs
 
 class TransactionAdapter(private var transactions: ArrayList<Transaction>) :
@@ -18,6 +19,7 @@ class TransactionAdapter(private var transactions: ArrayList<Transaction>) :
     class TransactionHolder(view: View) : RecyclerView.ViewHolder(view) {
         val label : TextView = view.findViewById(R.id.label)
         val amount : TextView = view.findViewById(R.id.amount)
+        val date : TextView = view.findViewById(R.id.date)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionHolder {
@@ -38,12 +40,14 @@ class TransactionAdapter(private var transactions: ArrayList<Transaction>) :
         }
 
         holder.label.text = transaction.label
+        holder.date.text = transaction.date
         holder.itemView.setOnClickListener {
             val intent = Intent(context, DetailedActivity::class.java)
             intent.putExtra("transactionId", transaction.id)
             intent.putExtra("label", transaction.label)
             intent.putExtra("amount", transaction.amount)
             intent.putExtra("description", transaction.description)
+            intent.putExtra("date",transaction.date)
             context.startActivity(intent)
         }
 

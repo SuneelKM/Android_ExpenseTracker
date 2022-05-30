@@ -10,5 +10,5 @@ data class Transaction(
     val label: String,
     val amount: Double,
     val description: String,
-//    val timeStamp: String
+    val date: String
 )

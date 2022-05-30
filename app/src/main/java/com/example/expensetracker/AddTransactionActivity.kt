@@ -50,6 +50,7 @@ class AddTransactionActivity : AppCompatActivity() {
             val label = labelInput.text.toString()
             val description = descriptionInput.text.toString()
             var amount = amountInput.text.toString().toDoubleOrNull()
+            var date = calendarDate.text.toString()
 
 
             if(label.isEmpty())
@@ -61,7 +62,7 @@ class AddTransactionActivity : AppCompatActivity() {
                 if(expense.isChecked){
                     amount = -amount
                 }
-                val transaction  =Transaction(0, label, amount, description)
+                val transaction = Transaction(0, label, amount, description, date)
                 insert(transaction)
             }
         }
@@ -71,7 +72,7 @@ class AddTransactionActivity : AppCompatActivity() {
         }
 
 
-        calendarDate.setText(SimpleDateFormat("dd MMM yyyy").format(System.currentTimeMillis()))
+        calendarDate.setText(SimpleDateFormat("EEE, dd MMM yyyy").format(System.currentTimeMillis()))
 
         var cal = Calendar.getInstance()
 
@@ -80,7 +81,7 @@ class AddTransactionActivity : AppCompatActivity() {
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-            val myFormat = "dd MMM yyyy"
+            val myFormat = "EEE, dd MMM yyyy"
             val sdf = SimpleDateFormat(myFormat, Locale.US)
             calendarDate.setText(sdf.format(cal.time))
 
