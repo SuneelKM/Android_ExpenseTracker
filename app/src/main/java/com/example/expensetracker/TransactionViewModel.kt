@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import androidx.room.Query
 import kotlinx.coroutines.launch
 
 class TransactionViewModel(app: Application):AndroidViewModel(app){
@@ -12,13 +13,15 @@ class TransactionViewModel(app: Application):AndroidViewModel(app){
     var totalAmount = 0.0
     var budgetAmount = 0.0
     var expenseAmount = 0.0
+//    var currentTransaction:LiveData<Transaction> = LiveData<Transaction>()
 
     init {
         repo = TransactionRepository(app)
         allTransactions = repo.getAll()
+//        currentTransaction = LiveData<Transaction>()
     }
 
-    fun getAllTransactions(transaction: Transaction) = viewModelScope.launch {
+    fun getAllTransactions() = viewModelScope.launch {
         repo.getAll()
     }
     fun insertTransaction(transaction: Transaction) = viewModelScope.launch {
@@ -31,8 +34,14 @@ class TransactionViewModel(app: Application):AndroidViewModel(app){
         repo.update(transaction)
     }
 
+    fun getById(transaction: Int) : Transaction? {
+     return repo.getById(transaction)
+    }
 
 
+    fun searchDatabase(searchQuery: String): LiveData<List<Transaction>>? {
+        return repo.searchDatabase(searchQuery)
+    }
 
     fun updateDashboard(transactions: List<Transaction>) {
         totalAmount = transactions.map { it.amount }.sum()

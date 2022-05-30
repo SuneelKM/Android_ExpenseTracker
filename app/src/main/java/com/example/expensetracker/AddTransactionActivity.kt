@@ -16,12 +16,14 @@ import kotlinx.android.synthetic.main.activity_add_transaction.closeBtn
 import kotlinx.android.synthetic.main.activity_add_transaction.descriptionInput
 import kotlinx.android.synthetic.main.activity_add_transaction.labelInput
 import kotlinx.android.synthetic.main.activity_add_transaction.labelLayout
+import java.time.LocalDateTime
 import java.util.*
 
 
 class AddTransactionActivity : AppCompatActivity() {
 
     lateinit var vm: TransactionViewModel
+    lateinit var arrayAdapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,37 +38,85 @@ class AddTransactionActivity : AppCompatActivity() {
             imm.hideSoftInputFromWindow(it.windowToken, 0)
         }
 
-        val labels = resources.getStringArray(R.array.labelExpense)
-        val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, labels)
+        val labelExpense = resources.getStringArray(R.array.labelExpense)
+        val labelIncome = resources.getStringArray(R.array.labelIncome)
+        arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, labelExpense)
         labelInput.setAdapter(arrayAdapter)
 
 
+        expense.setOnClickListener {
+            if (labelInput.text.toString() !in labelExpense.toList()) {
+                labelInput.setText("")
+                arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, labelExpense)
+                labelInput.setAdapter(arrayAdapter)
+            }
+        }
+
+        income.setOnClickListener {
+            if (labelInput.text.toString() !in labelIncome.toList()) {
+                labelInput.setText("")
+                arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, labelIncome)
+                labelInput.setAdapter(arrayAdapter)
+            }
+        }
+
         labelInput.addTextChangedListener {
-            if(it!!.isNotEmpty())
+            if (it!!.isNotEmpty())
                 labelLayout.error = null
         }
 
         amountInput.addTextChangedListener {
-            if(it!!.isNotEmpty())
+            if (it!!.isNotEmpty())
                 amountLayout.error = null
         }
+
+
+
+        calendarDate.setText(SimpleDateFormat("EEEE, dd MMM yyyy").format(System.currentTimeMillis()))
+        var date = Date()
+        println("Hello1    $date")
+
+
+        var cal = Calendar.getInstance()
+
+        val dateSetListener =
+            DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, monthOfYear)
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                val myFormat = "EEEE, dd MMM yyyy"
+                val sdf = SimpleDateFormat(myFormat, Locale.US)
+                calendarDate.setText(sdf.format(cal.time))
+                date = cal.time
+                println("Hello2    $date")
+            }
+
+        calendarDate.setOnClickListener {
+            DatePickerDialog(
+                this, dateSetListener,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }
+
+
 
         addTransactionBtn.setOnClickListener {
             val label = labelInput.text.toString()
             val description = descriptionInput.text.toString()
             var amount = amountInput.text.toString().toDoubleOrNull()
-            var date = calendarDate.text.toString()
+//            val date = calendarDate.text.toString()
+            println("Hello3    $date")
 
 
-            if(label.isEmpty())
+
+            if (label.isEmpty())
                 labelLayout.error = "Please enter a valid label"
-
-            else if(amount == null)
+            else if (amount == null)
                 amountLayout.error = "Please enter a valid amount"
             else {
-                if(expense.isChecked){
-                    amount = -amount
-                }
+                if (expense.isChecked) amount = -amount
                 val transaction = Transaction(0, label, amount, description, date)
                 insert(transaction)
             }
@@ -75,30 +125,6 @@ class AddTransactionActivity : AppCompatActivity() {
         closeBtn.setOnClickListener {
             finish()
         }
-
-
-        calendarDate.setText(SimpleDateFormat("EEEE, dd MMM yyyy").format(System.currentTimeMillis()))
-
-        var cal = Calendar.getInstance()
-
-        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-            cal.set(Calendar.YEAR, year)
-            cal.set(Calendar.MONTH, monthOfYear)
-            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
-            val myFormat = "EEEE, dd MMM yyyy"
-            val sdf = SimpleDateFormat(myFormat, Locale.US)
-            calendarDate.setText(sdf.format(cal.time))
-
-        }
-
-        calendarDate.setOnClickListener {
-            DatePickerDialog(this, dateSetListener,
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH)).show()
-        }
-
 
     }
 

@@ -2,6 +2,7 @@ package com.example.expensetracker
 
 
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +18,9 @@ class TransactionAdapter(private var transactions: ArrayList<Transaction>) :
     RecyclerView.Adapter<TransactionAdapter.TransactionHolder>() {
 
     class TransactionHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val label : TextView = view.findViewById(R.id.label)
-        val amount : TextView = view.findViewById(R.id.amount)
-        val date : TextView = view.findViewById(R.id.date)
+        val label : TextView = view.findViewById(R.id.labelT)
+        val amount : TextView = view.findViewById(R.id.amountT)
+        val date : TextView = view.findViewById(R.id.dateT)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionHolder {
@@ -40,14 +41,10 @@ class TransactionAdapter(private var transactions: ArrayList<Transaction>) :
         }
 
         holder.label.text = transaction.label
-        holder.date.text = transaction.date
+        holder.date.text = SimpleDateFormat("EEEE, dd MMM yyyy").format(transaction.date)
         holder.itemView.setOnClickListener {
             val intent = Intent(context, DetailedActivity::class.java)
             intent.putExtra("transactionId", transaction.id)
-            intent.putExtra("label", transaction.label)
-            intent.putExtra("amount", transaction.amount)
-            intent.putExtra("description", transaction.description)
-            intent.putExtra("date",transaction.date)
             context.startActivity(intent)
         }
 
@@ -57,7 +54,7 @@ class TransactionAdapter(private var transactions: ArrayList<Transaction>) :
         return transactions.size
     }
 
-    fun getTransactions(transaction: List<Transaction>) {
+    fun setTransactions(transaction: List<Transaction>) {
         this.transactions.clear()
         this.transactions.addAll(transaction)
         notifyDataSetChanged()

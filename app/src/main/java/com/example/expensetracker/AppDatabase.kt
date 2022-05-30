@@ -1,12 +1,11 @@
 package com.example.expensetracker
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 
 
 @Database(entities = arrayOf(Transaction::class), version = 3, exportSchema = false)
+@TypeConverters(DateTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun transactionDao() : TransactionDao
 

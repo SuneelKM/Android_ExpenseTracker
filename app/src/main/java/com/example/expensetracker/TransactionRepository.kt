@@ -2,6 +2,7 @@ package com.example.expensetracker
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import androidx.room.Query
 
 
 class TransactionRepository(context: Context) {
@@ -12,6 +13,9 @@ class TransactionRepository(context: Context) {
         return db?.getAll()
     }
 
+    fun getById(transaction: Int): Transaction?{
+        return db?.getById(transaction)
+    }
     suspend fun insertAll(transaction: Transaction){
         db?.insertAll(transaction)
     }
@@ -22,6 +26,10 @@ class TransactionRepository(context: Context) {
 
     suspend fun update(transaction: Transaction){
         db?.update(transaction)
+    }
+
+    fun searchDatabase(searchQuery: String): LiveData<List<Transaction>>?{
+        return db?.searchDatabase(searchQuery)
     }
 
 
