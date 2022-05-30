@@ -68,8 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
-
-            app:boxStrokeWidth="0dp"
+            android:layout_marginBottom="20dp"
             android:hint="Date">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -95,7 +94,6 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
             android:hint="Label"
-            app:boxStrokeWidth="0dp"
             app:errorEnabled="true">
 
             <AutoCompleteTextView
@@ -105,9 +103,8 @@
                 android:layout_weight="1"
                 android:drawableStart="@drawable/label_selector"
                 android:drawablePadding="12dp"
-                android:textSize="19sp"
                 android:inputType="none"
-                />
+                android:textSize="19sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -118,7 +115,6 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
             android:hint="Amount"
-            app:boxStrokeWidth="0dp"
             app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -140,7 +136,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
             android:hint="Description"
-            app:boxStrokeWidth="0dp"
+
             app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText

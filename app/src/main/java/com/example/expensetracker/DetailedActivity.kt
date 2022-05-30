@@ -13,12 +13,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
-import kotlinx.android.synthetic.main.activity_add_transaction.amountInput
-import kotlinx.android.synthetic.main.activity_add_transaction.amountLayout
-import kotlinx.android.synthetic.main.activity_add_transaction.closeBtn
-import kotlinx.android.synthetic.main.activity_add_transaction.descriptionInput
-import kotlinx.android.synthetic.main.activity_add_transaction.labelInput
-import kotlinx.android.synthetic.main.activity_add_transaction.labelLayout
+import kotlinx.android.synthetic.main.activity_add_transaction.*
 import kotlinx.android.synthetic.main.activity_detailed.*
 
 import java.util.*
@@ -27,6 +22,7 @@ import kotlin.math.abs
 class DetailedActivity : AppCompatActivity() {
     private lateinit var transaction: Transaction
     lateinit var vm: TransactionViewModel
+    lateinit var arrayAdapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,9 +42,28 @@ class DetailedActivity : AppCompatActivity() {
         descriptionInputEdit.setText(description)
         calendarDateEdit.setText(date)
 
-        val labels = resources.getStringArray(R.array.labelExpense)
-        val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, labels)
+        val labelExpense = resources.getStringArray(R.array.labelExpense)
+        val labelIncome = resources.getStringArray(R.array.labelIncome)
+        var labels = labelExpense
+        if(incomeEdit.isChecked) labels = labelIncome
+        arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, labels)
         labelInputEdit.setAdapter(arrayAdapter)
+
+        expenseEdit.setOnClickListener {
+            if (labelInputEdit.text.toString() !in labelExpense.toList()) {
+                labelInputEdit.setText("")
+                arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, labelExpense)
+                labelInputEdit.setAdapter(arrayAdapter)
+            }
+        }
+
+        incomeEdit.setOnClickListener {
+            if (labelInputEdit.text.toString() !in labelIncome.toList()) {
+                labelInputEdit.setText("")
+                arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, labelIncome)
+                labelInputEdit.setAdapter(arrayAdapter)
+            }
+        }
 
 
         detailRootView.setOnClickListener {
