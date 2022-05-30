@@ -14,9 +14,10 @@
         <entry key="app/src/main/res/drawable/ic_money_focused.xml" value="0.1335" />
         <entry key="app/src/main/res/drawable/label_selector.xml" value="0.1335" />
         <entry key="app/src/main/res/drawable/money_selector.xml" value="0.1335" />
-        <entry key="app/src/main/res/layout/activity_add_transaction.xml" value="0.2947916666666667" />
-        <entry key="app/src/main/res/layout/activity_detailed.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_add_transaction.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_detailed.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/dropdown_item.xml" value="0.30885416666666665" />
         <entry key="app/src/main/res/layout/qwer.xml" value="0.29375" />
         <entry key="app/src/main/res/layout/t.xml" value="0.29375" />
         <entry key="app/src/main/res/layout/transaction_layout.xml" value="0.2947916666666667" />

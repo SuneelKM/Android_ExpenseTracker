@@ -7,6 +7,7 @@ import android.icu.text.SimpleDateFormat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
 import kotlinx.android.synthetic.main.activity_add_transaction.*
 import kotlinx.android.synthetic.main.activity_add_transaction.amountInput
@@ -34,6 +35,10 @@ class AddTransactionActivity : AppCompatActivity() {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(it.windowToken, 0)
         }
+
+        val labels = resources.getStringArray(R.array.labelExpense)
+        val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, labels)
+        labelInput.setAdapter(arrayAdapter)
 
 
         labelInput.addTextChangedListener {
@@ -72,7 +77,7 @@ class AddTransactionActivity : AppCompatActivity() {
         }
 
 
-        calendarDate.setText(SimpleDateFormat("EEE, dd MMM yyyy").format(System.currentTimeMillis()))
+        calendarDate.setText(SimpleDateFormat("EEEE, dd MMM yyyy").format(System.currentTimeMillis()))
 
         var cal = Calendar.getInstance()
 
@@ -81,7 +86,7 @@ class AddTransactionActivity : AppCompatActivity() {
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-            val myFormat = "EEE, dd MMM yyyy"
+            val myFormat = "EEEE, dd MMM yyyy"
             val sdf = SimpleDateFormat(myFormat, Locale.US)
             calendarDate.setText(sdf.format(cal.time))
 
@@ -101,6 +106,7 @@ class AddTransactionActivity : AppCompatActivity() {
         vm.insertTransaction(transaction)
         val intentMain = Intent(this, MainActivity::class.java)
         startActivity(intentMain)
+        finish()
     }
 
 }

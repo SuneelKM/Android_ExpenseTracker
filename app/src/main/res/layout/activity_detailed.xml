@@ -9,38 +9,38 @@
 
 
     <RadioGroup
-        android:id="@+id/radioGroup1"
+        android:id="@+id/radioGroupEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutEdit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <RadioButton
-            android:id="@+id/expense1"
+            android:id="@+id/expenseEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:checked="true"
             android:text="Expense"
-            android:textSize="22sp" />
+            android:textSize="19sp" />
 
 
         <RadioButton
-            android:id="@+id/income1"
+            android:id="@+id/incomeEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Income"
-            android:textSize="22sp" />
+            android:textSize="19sp" />
 
     </RadioGroup>
 
 
     <ImageButton
-        android:id="@+id/closeBtn"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:id="@+id/closeBtnEdit"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
         android:layout_margin="12dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/close_bg"
@@ -51,7 +51,7 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/linearLayoutEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="132dp"
@@ -62,7 +62,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/timestamp1"
+            android:id="@+id/timestampEdit"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,13 +73,13 @@
             android:hint="Date">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/calendarDate1"
+                android:id="@+id/calendarDateEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="12dp"
                 android:cursorVisible="false"
                 android:drawableStart="@drawable/ic_calendar_month"
-                android:textSize="24sp"
+                android:textSize="19sp"
                 android:focusable="false"
                 android:focusableInTouchMode="true"
                 android:maxLines="1" />
@@ -88,8 +88,8 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/labelLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/labelLayoutEdit"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
@@ -98,18 +98,20 @@
             app:boxStrokeWidth="0dp"
             app:errorEnabled="true">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/labelInput"
+            <AutoCompleteTextView
+                android:id="@+id/labelInputEdit"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/label_selector"
                 android:drawablePadding="12dp"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textSize="24sp" />
+                android:textSize="19sp"
+                android:inputType="none"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/amountLayout"
+            android:id="@+id/amountLayoutEdit"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -120,18 +122,18 @@
             app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/amountInput"
+                android:id="@+id/amountInputEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/money_selector"
                 android:drawablePadding="12dp"
                 android:inputType="numberDecimal|numberSigned"
                 android:maxLines="1"
-                android:textSize="24sp" />
+                android:textSize="19sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/descriptionLayout"
+            android:id="@+id/descriptionLayoutEdit"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -142,18 +144,18 @@
             app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/descriptionInput"
+                android:id="@+id/descriptionInputEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="12dp"
                 android:inputType="text|textMultiLine"
-                android:textSize="24sp" />
+                android:textSize="19sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/updateBtn"
+        android:id="@+id/updateBtnEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -165,11 +167,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutEdit"
         app:layout_constraintVertical_bias="0.12" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/deleteBtn"
+        android:id="@+id/deleteBtnEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -179,10 +181,10 @@
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.842"
+        app:layout_constraintHorizontal_bias="0.526"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.461" />
+        app:layout_constraintTop_toBottomOf="@+id/updateBtnEdit"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
