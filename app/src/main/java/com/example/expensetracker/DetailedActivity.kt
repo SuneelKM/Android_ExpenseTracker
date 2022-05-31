@@ -139,12 +139,15 @@ class DetailedActivity : AppCompatActivity() {
             builder.setTitle("Confirm Delete")
             builder.setMessage("Are you sure you want to delete this item?")
             builder.setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, i ->
+
+                builder.setMessage("Are you sure you want to delete this item?")
                 vm.deleteTransactions(transactionId)
                 dialog.cancel()
                 startActivity(Intent(this, MainActivity::class.java))
                 Toast.makeText(this, "Transaction Deleted", Toast.LENGTH_SHORT).show()
 
             })
+
             builder.setNegativeButton("No", DialogInterface.OnClickListener { dialog, i ->
                 dialog.cancel()
             })

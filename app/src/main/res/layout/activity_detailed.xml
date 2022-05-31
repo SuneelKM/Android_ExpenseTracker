@@ -104,7 +104,9 @@
                 android:drawableStart="@drawable/label_selector"
                 android:drawablePadding="12dp"
                 android:inputType="none"
-                android:textSize="19sp" />
+                android:textSize="19sp"
+                android:focusable="false"
+                android:focusableInTouchMode="true"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

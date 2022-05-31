@@ -31,7 +31,9 @@ class TransactionRepository(context: Context) {
     fun searchDatabase(searchQuery: String): LiveData<List<Transaction>>?{
         return db?.searchDatabase(searchQuery)
     }
-
+    fun sortAsc(): LiveData<List<Transaction>>? {
+        return db?.sortAsc()
+    }
 
 }
 

@@ -7,7 +7,6 @@ import android.view.Menu
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -40,6 +39,24 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             val intent = Intent(this, AddTransactionActivity::class.java)
             startActivity(intent)
         }
+
+        var sort = "desc"
+        sortButton.setOnClickListener{
+            sort = if(sort == "desc") {
+                vm.sortAsc()?.observe(this) {
+                    transactionAdapter.setTransactions(it)
+                }
+                "asc"
+            } else {
+                vm.allTransactions?.observe(this) {
+                    transactionAdapter.setTransactions(it)
+                }
+                "desc"
+            }
+
+
+
+        }
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_item, menu)
@@ -52,9 +69,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        if(query != null){
-            searchDatabase(query)
-        }
         return true
     }
 

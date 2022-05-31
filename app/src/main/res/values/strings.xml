@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ExpenseTracker</string>
+    <string name="app_name">Suneel ExpenseTracker</string>
     
     <string-array name="labelExpense">
         <item>Entertainment</item>
@@ -20,5 +20,15 @@
         <item>Stocks</item>
         <item>Gift</item>
         <item>Selling</item>
+    </string-array>
+
+
+    <string-array name="sortBy">
+        <item>Ascending</item>
+        <item>Ascending1</item>
+        <item>Ascending11</item>
+        <item>Ascending3</item>
+
+
     </string-array>
 </resources>

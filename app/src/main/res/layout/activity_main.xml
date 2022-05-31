@@ -6,10 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
+
+
 
         <LinearLayout
             android:id="@+id/balance_layout"
@@ -84,7 +89,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Budget"
+                        android:text="Savings"
                         android:textAllCaps="true"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -115,19 +120,43 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-
-
-        <TextView
-            android:id="@+id/recyclerview_title"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/dashboard"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:text="Transactions"
-            android:textAllCaps="true"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+            android:id="@+id/transactionBar">
+
+            <TextView
+                android:id="@+id/recyclerview_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Transactions"
+                android:textAllCaps="true"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:layout_marginStart="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageButton
+                android:id="@+id/sortButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_sort"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:clickable="true"
+                android:layout_marginEnd="15dp"
+                android:background="?selectableItemBackground"
+                android:focusable="true"/>
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -135,7 +164,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/addBtn"
-            android:layout_below="@id/recyclerview_title"
+            android:layout_below="@+id/transactionBar"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:scrollbars="vertical"
@@ -155,5 +184,12 @@
             android:contentDescription="TODO" />
 
 
+
+
     </RelativeLayout>
+
+
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+

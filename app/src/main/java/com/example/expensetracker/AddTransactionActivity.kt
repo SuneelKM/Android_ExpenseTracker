@@ -44,6 +44,7 @@ class AddTransactionActivity : AppCompatActivity() {
         labelInput.setAdapter(arrayAdapter)
 
 
+
         expense.setOnClickListener {
             if (labelInput.text.toString() !in labelExpense.toList()) {
                 labelInput.setText("")
@@ -74,7 +75,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
         calendarDate.setText(SimpleDateFormat("EEEE, dd MMM yyyy").format(System.currentTimeMillis()))
         var date = Date()
-        println("Hello1    $date")
+
 
 
         var cal = Calendar.getInstance()
@@ -88,7 +89,7 @@ class AddTransactionActivity : AppCompatActivity() {
                 val sdf = SimpleDateFormat(myFormat, Locale.US)
                 calendarDate.setText(sdf.format(cal.time))
                 date = cal.time
-                println("Hello2    $date")
+
             }
 
         calendarDate.setOnClickListener {
@@ -107,7 +108,7 @@ class AddTransactionActivity : AppCompatActivity() {
             val description = descriptionInput.text.toString()
             var amount = amountInput.text.toString().toDoubleOrNull()
 //            val date = calendarDate.text.toString()
-            println("Hello3    $date")
+
 
 
 

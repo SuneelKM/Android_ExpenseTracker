@@ -23,5 +23,8 @@ interface TransactionDao {
     @Query("SELECT * from transactions WHERE label LIKE :searchQuery")
     fun searchDatabase(searchQuery: String): LiveData<List<Transaction>>
 
+    @Query("SELECT * from transactions ORDER BY date ASC")
+    fun sortAsc(): LiveData<List<Transaction>>
+
 
 }

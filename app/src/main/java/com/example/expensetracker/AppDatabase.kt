@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.*
 
 
-@Database(entities = arrayOf(Transaction::class), version = 3, exportSchema = false)
+@Database(entities = [Transaction::class], version = 3, exportSchema = false)
 @TypeConverters(DateTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun transactionDao() : TransactionDao

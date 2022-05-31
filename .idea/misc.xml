@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-anydpi-v26/ic_launcher_background.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-anydpi-v26/ic_launcher_foreground.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/close_bg.xml" value="0.1335" />
         <entry key="app/src/main/res/drawable/description_selector.xml" value="0.1335" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1" />
@@ -13,18 +15,23 @@
         <entry key="app/src/main/res/drawable/ic_label_focused.xml" value="0.1335" />
         <entry key="app/src/main/res/drawable/ic_money_focused.xml" value="0.1335" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.163" />
+        <entry key="app/src/main/res/drawable/ic_sort.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/label_selector.xml" value="0.1335" />
         <entry key="app/src/main/res/drawable/money_selector.xml" value="0.1335" />
         <entry key="app/src/main/res/drawable/searchview_background.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_add_transaction.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_detailed.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.16463414634146342" />
         <entry key="app/src/main/res/layout/dropdown_item.xml" value="0.30885416666666665" />
         <entry key="app/src/main/res/layout/qwer.xml" value="0.29375" />
         <entry key="app/src/main/res/layout/ser.xml" value="0.30885416666666665" />
         <entry key="app/src/main/res/layout/t.xml" value="0.29375" />
+        <entry key="app/src/main/res/layout/trail2.xml" value="0.29375" />
         <entry key="app/src/main/res/layout/transaction_layout.xml" value="0.2947916666666667" />
+        <entry key="app/src/main/res/layout/trial.xml" value="0.375" />
         <entry key="app/src/main/res/menu/menu_item.xml" value="0.1" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
       </map>
     </option>
   </component>

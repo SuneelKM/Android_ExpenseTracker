@@ -38,6 +38,10 @@ class TransactionViewModel(app: Application):AndroidViewModel(app){
      return repo.getById(transaction)
     }
 
+    fun sortAsc() : LiveData<List<Transaction>>? {
+        return repo.sortAsc()
+    }
+
 
     fun searchDatabase(searchQuery: String): LiveData<List<Transaction>>? {
         return repo.searchDatabase(searchQuery)
