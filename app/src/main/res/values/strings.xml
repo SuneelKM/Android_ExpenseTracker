@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Suneel ExpenseTracker</string>
+    <string name="app_name">Suneel Expense</string>
     
     <string-array name="labelExpense">
         <item>Entertainment</item>
