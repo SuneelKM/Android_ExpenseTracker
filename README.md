@@ -1,6 +1,6 @@
 # ExpenseTracker
 ## A simple Expense Tracker Android Application.
-#### Created following Android MVVM Architecture using Kotlin.
+
 
 <ul>
 <li> Created following Android MVVM Architecture using Kotlin </li>
