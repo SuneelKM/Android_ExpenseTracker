@@ -9,10 +9,19 @@
 <li> Can search or sort the Savings or Expense </li>  
 </ul>
 
-  #####
 
+
+  ### Home
 
 <img src = "https://github.com/SuneelKM/ExpenseTracker/blob/main/screenshot/expense%20tracker.png" width=432 height=936>
+
+### Add Transaction
+
+<img src = "https://github.com/SuneelKM/ExpenseTracker/blob/main/screenshot/Addexpense.png" width=432 height=936>
+
+### Delete/Update Transaction
+
+<img src = "https://github.com/SuneelKM/ExpenseTracker/blob/main/screenshot/Update%20and%20delete.png" width=432 height=936>
 
 
 
