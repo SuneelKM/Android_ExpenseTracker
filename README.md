@@ -1,5 +1,5 @@
 # ExpenseTracker
-## A simple Expense Tracker Android Application.
+## An Expense Tracker Android Application.
 
 
 <ul>
