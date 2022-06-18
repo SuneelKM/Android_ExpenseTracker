@@ -25,8 +25,8 @@
 
 ## To run the app
 * Clone the Repo
-* Open the Repo in Android Studio.
-* Let the Gradle to build.
+* Open the Repo in Android Studio
+* Let the Gradle to build
 * Enjoy!!
 
 
