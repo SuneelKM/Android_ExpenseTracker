@@ -5,6 +5,7 @@
 <ul>
 <li> Created following Android MVVM Architecture using Kotlin </li>
 <li> Data is saved in a local database using Room DB</li>
+<li> Added Field Validation Checks </li>
 <li> Can Add/Delete/Update the Savings or Expense </li>
 <li> Can search or sort the Savings or Expense </li>  
 </ul>
