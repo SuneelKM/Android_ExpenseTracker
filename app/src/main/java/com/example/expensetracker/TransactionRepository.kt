@@ -9,11 +9,11 @@ class TransactionRepository(context: Context) {
 
     var db:TransactionDao? = AppDatabase.getInstance(context)?.transactionDao()
 
-    fun getAll(): LiveData<List<Transaction>>?{
+    suspend fun getAll(): List<Transaction>?{
         return db?.getAll()
     }
 
-    fun getById(transaction: Int): Transaction?{
+    suspend fun getById(transaction: Int): Transaction?{
         return db?.getById(transaction)
     }
     suspend fun insertAll(transaction: Transaction){

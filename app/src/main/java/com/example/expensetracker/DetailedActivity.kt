@@ -14,13 +14,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import kotlinx.android.synthetic.main.activity_detailed.*
+import kotlinx.coroutines.runBlocking
 
 import java.util.*
 import kotlin.math.abs
 
 class DetailedActivity : AppCompatActivity() {
-    private lateinit var transaction: Transaction
-    lateinit var vm: TransactionViewModel
+    private lateinit var vm: TransactionViewModel
     lateinit var arrayAdapter: ArrayAdapter<String>
     lateinit var date: Date
 
@@ -28,23 +28,32 @@ class DetailedActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detailed)
-        vm = TransactionViewModel(application)
-
-
         val transactionId = intent.getIntExtra("transactionId", -1)
-        var label = vm.getById(transactionId)?.label
-        var amount = vm.getById(transactionId)?.amount
-        val description = vm.getById(transactionId)?.description
-        date = vm.getById(transactionId)?.date!!
-
-        if (amount != null) {
-            if (amount > 0.0) incomeEdit.isChecked = true
+        vm = TransactionViewModel(application)
+        vm.getTransactionById(transactionId)
+        vm.transactionById.observe(this) {
+            val label = it.label
+            date = it.date
+            val description = it.description
+            val amount = it.amount
+            detailedTransaction(transactionId, label, date, description, amount)
         }
+    }
 
-        var dateToDisplay = SimpleDateFormat("EEEE, dd MMM yyyy").format(date)
+    private fun detailedTransaction(
+        transactionId: Int,
+        label: String,
+        transactionDate: Date,
+        description: String,
+        amount: Double
+    ) {
+        var date = transactionDate
+        if (amount > 0.0) incomeEdit.isChecked = true
+
+        val dateToDisplay = SimpleDateFormat("EEEE, dd MMM yyyy").format(date)
 
         labelInputEdit.setText(label)
-        amountInputEdit.setText(amount?.let { abs(it).toString() })
+        amountInputEdit.setText(amount.let { abs(it).toString() })
         descriptionInputEdit.setText(description)
         calendarDateEdit.setText(dateToDisplay)
 
@@ -79,7 +88,7 @@ class DetailedActivity : AppCompatActivity() {
             imm.hideSoftInputFromWindow(it.windowToken, 0)
         }
 
-        var cal = Calendar.getInstance()
+        val cal = Calendar.getInstance()
 
         val dateSetListener =
             DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->

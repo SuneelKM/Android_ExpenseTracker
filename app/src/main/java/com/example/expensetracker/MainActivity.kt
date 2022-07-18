@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
         recyclerView.adapter = transactionAdapter
 
-        vm.allTransactions?.observe(this) {
+        vm.allTransactions.observe(this) {
             vm.updateDashboard(it)
             balance.text = "$ %.2f".format(vm.totalAmount)
             budget.text = "$ %.2f".format(vm.budgetAmount)
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 }
                 "asc"
             } else {
-                vm.allTransactions?.observe(this) {
+                vm.allTransactions.observe(this) {
                     transactionAdapter.setTransactions(it)
                 }
                 "desc"
@@ -58,10 +58,10 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         }
     }
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_item, menu)
 
-        val search = menu?.findItem(R.id.menu_search)
+        val search = menu.findItem(R.id.menu_search)
         val searchView = search?.actionView as? SearchView
         searchView?.isSubmitButtonEnabled = true
         searchView?.setOnQueryTextListener(this)
