@@ -14,8 +14,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import kotlinx.android.synthetic.main.activity_detailed.*
-import kotlinx.coroutines.runBlocking
-
 import java.util.*
 import kotlin.math.abs
 

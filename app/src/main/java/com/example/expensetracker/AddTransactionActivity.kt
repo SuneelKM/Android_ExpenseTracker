@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.activity_add_transaction.closeBtn
 import kotlinx.android.synthetic.main.activity_add_transaction.descriptionInput
 import kotlinx.android.synthetic.main.activity_add_transaction.labelInput
 import kotlinx.android.synthetic.main.activity_add_transaction.labelLayout
-import java.time.LocalDateTime
 import java.util.*
 
 
