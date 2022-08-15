@@ -56,7 +56,8 @@ dependencies {
     // ViewModel
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0'
     implementation 'androidx.fragment:fragment-ktx:1.5.0'
-
+    
+    // asLiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.0"
 
 

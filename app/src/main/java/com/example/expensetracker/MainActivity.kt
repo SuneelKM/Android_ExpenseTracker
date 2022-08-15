@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         var sort = "desc"
         sortButton.setOnClickListener{
             sort = if(sort == "desc") {
-                vm.sortAsc()?.observe(this) {
+                vm.sortAsc().observe(this) {
                     transactionAdapter.setTransactions(it)
                 }
                 "asc"
@@ -56,8 +56,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 }
                 "desc"
             }
-
-
 
         }
     }
@@ -85,7 +83,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private fun searchDatabase(query: String) {
         val searchQuery = "%$query%"
 
-        vm.searchDatabase(searchQuery)?.observe(this) { list ->
+        vm.searchDatabase(searchQuery).observe(this) { list ->
             list.let {
                 transactionAdapter.setTransactions(it)
                 vm.updateDashboard(it)

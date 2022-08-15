@@ -13,15 +13,17 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.widget.addTextChangedListener
 import com.example.expensetracker.database.Transaction.Transaction
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_detailed.*
 import java.util.*
 import kotlin.math.abs
 
 class DetailedActivity : AppCompatActivity() {
 
-    private val vm: TransactionViewModel by viewModels{
+    private val vm: TransactionViewModel by viewModels {
         TransactionViewModel.TransactionViewModelFactory(application)
     }
     lateinit var arrayAdapter: ArrayAdapter<String>
@@ -32,12 +34,15 @@ class DetailedActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detailed)
         val transactionId = intent.getIntExtra("transactionId", -1)
+
         vm.getTransactionById(transactionId).observe(this) {
-            val label = it.label
-            date = it.date
-            val description = it.description
-            val amount = it.amount
-            detailedTransaction(transactionId, label, date, description, amount)
+            it?.let {
+                val label = it.label
+                date = it.date
+                val description = it.description
+                val amount = it.amount
+                detailedTransaction(transactionId, label, date, description, amount)
+            }
         }
     }
 
@@ -140,30 +145,22 @@ class DetailedActivity : AppCompatActivity() {
                 vm.updateTransactions(transaction)
                 startActivity(Intent(this, MainActivity::class.java))
                 Toast.makeText(this, "Transaction Updated", Toast.LENGTH_SHORT).show()
-                finish()
             }
         }
 
         deleteBtnEdit.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Confirm Delete")
-            builder.setMessage("Are you sure you want to delete this item?")
-            builder.setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, i ->
-
-                builder.setMessage("Are you sure you want to delete this item?")
-                vm.deleteTransactions(transactionId)
-                dialog.cancel()
-                startActivity(Intent(this, MainActivity::class.java))
-                Toast.makeText(this, "Transaction Deleted", Toast.LENGTH_SHORT).show()
-
-            })
-
-            builder.setNegativeButton("No", DialogInterface.OnClickListener { dialog, i ->
-                dialog.cancel()
-            })
-
-            builder.create().show()
-
+            MaterialAlertDialogBuilder(this)
+                .setTitle("Confirm Delete")
+                .setMessage("Are you sure you want to delete this item?")
+                .setCancelable(false)
+                .setNegativeButton("No") { _, _ -> }
+                .setPositiveButton("yes") { _, _ ->
+                    vm.deleteTransactions(transactionId)
+                    finish()
+                    startActivity(Intent(this, MainActivity::class.java))
+                    Toast.makeText(this, "Transaction Deleted", Toast.LENGTH_SHORT).show()
+                }
+                .show()
         }
 
         closeBtnEdit.setOnClickListener {
