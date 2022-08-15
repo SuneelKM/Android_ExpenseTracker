@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.expensetracker.database.Transaction.Transaction
 import kotlin.math.abs
 
 class TransactionAdapter(private var transactions: ArrayList<Transaction>) :

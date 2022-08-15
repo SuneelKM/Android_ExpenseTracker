@@ -11,14 +11,19 @@ import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
+import com.example.expensetracker.database.Transaction.Transaction
 import kotlinx.android.synthetic.main.activity_detailed.*
 import java.util.*
 import kotlin.math.abs
 
 class DetailedActivity : AppCompatActivity() {
-    private lateinit var vm: TransactionViewModel
+
+    private val vm: TransactionViewModel by viewModels{
+        TransactionViewModel.TransactionViewModelFactory(application)
+    }
     lateinit var arrayAdapter: ArrayAdapter<String>
     lateinit var date: Date
 
@@ -27,9 +32,7 @@ class DetailedActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detailed)
         val transactionId = intent.getIntExtra("transactionId", -1)
-        vm = TransactionViewModel(application)
-        vm.getTransactionById(transactionId)
-        vm.transactionById.observe(this) {
+        vm.getTransactionById(transactionId).observe(this) {
             val label = it.label
             date = it.date
             val description = it.description

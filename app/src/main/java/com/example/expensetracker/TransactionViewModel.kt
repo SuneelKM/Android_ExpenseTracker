@@ -1,29 +1,26 @@
 package com.example.expensetracker
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.example.expensetracker.database.Transaction.Transaction
 import kotlinx.coroutines.launch
 
 class TransactionViewModel(app: Application):AndroidViewModel(app){
     private val repo: TransactionRepository
-    var allTransactions = MutableLiveData<List<Transaction>>()
+    lateinit var allTransactions: LiveData<List<Transaction>>
     var totalAmount = 0.0
     var budgetAmount = 0.0
     var expenseAmount = 0.0
-    private var _transactionById =  MutableLiveData<Transaction>()
-    var transactionById:LiveData<Transaction> = _transactionById
 
     init {
         repo = TransactionRepository(app)
         getAllTransactions()
     }
 
-    private fun getAllTransactions() = viewModelScope.launch {
-        allTransactions.value = repo.getAll()
+    private fun getAllTransactions() {
+        allTransactions = repo.getAll()!!.asLiveData()
     }
+
     fun insertTransaction(transaction: Transaction) = viewModelScope.launch {
         repo.insertAll(transaction)
     }
@@ -34,23 +31,33 @@ class TransactionViewModel(app: Application):AndroidViewModel(app){
         repo.update(transaction)
     }
 
-    fun getTransactionById(transaction: Int) = viewModelScope.launch {
-        _transactionById.value = repo.getById(transaction)!!
+    fun getTransactionById(transaction: Int):LiveData<Transaction> {
+        return repo.getById(transaction)!!.asLiveData()
     }
 
-    fun sortAsc() : LiveData<List<Transaction>>? {
-        return repo.sortAsc()
+    fun sortAsc() : LiveData<List<Transaction>> {
+        return repo.sortAsc()!!.asLiveData()
     }
 
 
     fun searchDatabase(searchQuery: String): LiveData<List<Transaction>>? {
-        return repo.searchDatabase(searchQuery)
+        return repo.searchDatabase(searchQuery)!!.asLiveData()
     }
 
     fun updateDashboard(transactions: List<Transaction>) {
         totalAmount = transactions.sumOf { it.amount }
         budgetAmount = transactions.filter { it.amount > 0 }.map { it.amount }.sum()
         expenseAmount = totalAmount - budgetAmount
+    }
+
+    class TransactionViewModelFactory(private val app: Application) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(TransactionViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return TransactionViewModel(app) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
     }
 
 }

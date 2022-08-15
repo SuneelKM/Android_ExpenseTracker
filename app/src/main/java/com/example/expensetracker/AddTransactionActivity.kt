@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
+import com.example.expensetracker.database.Transaction.Transaction
 import kotlinx.android.synthetic.main.activity_add_transaction.*
 import kotlinx.android.synthetic.main.activity_add_transaction.amountInput
 import kotlinx.android.synthetic.main.activity_add_transaction.amountLayout
@@ -21,14 +23,14 @@ import java.util.*
 
 class AddTransactionActivity : AppCompatActivity() {
 
-    lateinit var vm: TransactionViewModel
+    private val vm: TransactionViewModel by viewModels{
+        TransactionViewModel.TransactionViewModelFactory(application)
+    }
     lateinit var arrayAdapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_transaction)
-
-        vm = TransactionViewModel(application)
 
         addRootView.setOnClickListener {
             this.window.decorView.clearFocus()
@@ -71,7 +73,6 @@ class AddTransactionActivity : AppCompatActivity() {
         }
 
 
-
         calendarDate.setText(SimpleDateFormat("EEEE, dd MMM yyyy").format(System.currentTimeMillis()))
         var date = Date()
 
@@ -107,7 +108,6 @@ class AddTransactionActivity : AppCompatActivity() {
             val description = descriptionInput.text.toString()
             var amount = amountInput.text.toString().toDoubleOrNull()
 //            val date = calendarDate.text.toString()
-
 
 
 

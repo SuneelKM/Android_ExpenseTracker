@@ -1,4 +1,4 @@
-package com.example.expensetracker
+package com.example.expensetracker.database.Transaction
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

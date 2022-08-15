@@ -4,24 +4,27 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
+import com.example.expensetracker.database.Transaction.Transaction
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
-    lateinit var vm: TransactionViewModel
     var transactions = ArrayList<Transaction>()
     lateinit var transactionAdapter: TransactionAdapter
 
+    private val vm: TransactionViewModel by viewModels{
+        TransactionViewModel.TransactionViewModelFactory(application)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        vm = TransactionViewModel(application)
 
         transactionAdapter = TransactionAdapter(transactions)
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
