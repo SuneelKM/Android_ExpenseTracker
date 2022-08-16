@@ -2,60 +2,63 @@ package com.example.expensetracker
 
 
 import android.content.Intent
-import android.icu.text.SimpleDateFormat
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.expensetracker.database.Transaction.Transaction
-import kotlin.math.abs
+import com.example.expensetracker.database.Transaction.getFormattedAmount
+import com.example.expensetracker.database.Transaction.getFormattedDate
+import com.example.expensetracker.databinding.TransactionLayoutBinding
 
-class TransactionAdapter(private var transactions: ArrayList<Transaction>) :
-    RecyclerView.Adapter<TransactionAdapter.TransactionHolder>() {
+class TransactionAdapter(private val onItemClicked: (Transaction) -> Unit) :
+    ListAdapter<Transaction, TransactionAdapter.TransactionHolder>(DiffCallback) {
 
-    class TransactionHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val label : TextView = view.findViewById(R.id.labelT)
-        val amount : TextView = view.findViewById(R.id.amountT)
-        val date : TextView = view.findViewById(R.id.dateT)
+    class TransactionHolder(private var binding: TransactionLayoutBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(transaction: Transaction) {
+            binding.labelT.text = transaction.label
+
+            val context = binding.labelT.context
+            if (transaction.amount >= 0) {
+                binding.amountT.setTextColor(ContextCompat.getColor(context, R.color.green))
+            } else binding.amountT.setTextColor(ContextCompat.getColor(context, R.color.red))
+
+            binding.amountT.text = transaction.getFormattedAmount()
+            binding.dateT.text = transaction.getFormattedDate()
+
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.transaction_layout, parent, false)
-        return TransactionHolder(view)
+        return TransactionHolder(
+            TransactionLayoutBinding.inflate(LayoutInflater.from(parent.context))
+        )
     }
 
     override fun onBindViewHolder(holder: TransactionHolder, position: Int) {
-        val transaction = transactions[position]
-        val context = holder.amount.context
 
-        if(transaction.amount >= 0){
-            holder.amount.text = "+ $%.2f".format(transaction.amount)
-            holder.amount.setTextColor(ContextCompat.getColor(context, R.color.green))
-        }else {
-            holder.amount.text = "- $%.2f".format(abs(transaction.amount))
-            holder.amount.setTextColor(ContextCompat.getColor(context, R.color.red))
-        }
-
-        holder.label.text = transaction.label
-        holder.date.text = SimpleDateFormat("EEEE, dd MMM yyyy").format(transaction.date)
+        val current = getItem(position)
         holder.itemView.setOnClickListener {
-            val intent = Intent(context, DetailedActivity::class.java)
-            intent.putExtra("transactionId", transaction.id)
-            context.startActivity(intent)
+            onItemClicked(current)
         }
+        holder.bind(current)
 
     }
 
-    override fun getItemCount(): Int {
-        return transactions.size
-    }
+    companion object {
+        private val DiffCallback = object : DiffUtil.ItemCallback<Transaction>() {
+            override fun areItemsTheSame(oldItem: Transaction, newItem: Transaction): Boolean {
+                return oldItem === newItem
+            }
 
-    fun setTransactions(transaction: List<Transaction>) {
-        this.transactions.clear()
-        this.transactions.addAll(transaction)
-        notifyDataSetChanged()
+            override fun areContentsTheSame(oldItem: Transaction, newItem: Transaction): Boolean {
+                return oldItem.date == newItem.date
+            }
+        }
     }
 
 }

@@ -26,7 +26,12 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        transactionAdapter = TransactionAdapter(transactions)
+        transactionAdapter = TransactionAdapter {
+            val intent = Intent(this, DetailedActivity::class.java)
+            intent.putExtra("transactionId", it.id)
+            startActivity(intent)
+        }
+
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
         recyclerView.adapter = transactionAdapter
 
@@ -35,7 +40,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             balance.text = "$ %.2f".format(vm.totalAmount)
             budget.text = "$ %.2f".format(vm.budgetAmount)
             expense.text = "$ %.2f".format(vm.expenseAmount)
-            transactionAdapter.setTransactions(it)
+            transactionAdapter.submitList(it)
         }
 
         addBtn.setOnClickListener {
@@ -47,12 +52,12 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         sortButton.setOnClickListener{
             sort = if(sort == "desc") {
                 vm.sortAsc().observe(this) {
-                    transactionAdapter.setTransactions(it)
+                    transactionAdapter.submitList(it)
                 }
                 "asc"
             } else {
                 vm.allTransactions.observe(this) {
-                    transactionAdapter.setTransactions(it)
+                    transactionAdapter.submitList(it)
                 }
                 "desc"
             }
@@ -85,7 +90,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         vm.searchDatabase(searchQuery).observe(this) { list ->
             list.let {
-                transactionAdapter.setTransactions(it)
+                transactionAdapter.submitList(it)
                 vm.updateDashboard(it)
                 balance.text = "$ %.2f".format(vm.totalAmount)
                 budget.text = "$ %.2f".format(vm.budgetAmount)
