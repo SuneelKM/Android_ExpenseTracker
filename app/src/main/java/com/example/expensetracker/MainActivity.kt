@@ -57,9 +57,8 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         }
 
         sortButton.setOnClickListener {
-            isAsc = !isAsc
             lifecycleScope.launch {
-                settingsDataStore.saveLayoutToPreferencesStore(isAsc, this@MainActivity)
+                settingsDataStore.saveLayoutToPreferencesStore(!isAsc, this@MainActivity)
             }
         }
     }
