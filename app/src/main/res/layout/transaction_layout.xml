@@ -26,7 +26,6 @@
         android:text="$12"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/labelT"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

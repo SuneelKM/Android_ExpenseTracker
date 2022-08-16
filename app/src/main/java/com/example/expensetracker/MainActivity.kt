@@ -6,16 +6,16 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.expensetracker.database.Transaction.Transaction
 import kotlinx.android.synthetic.main.activity_main.*
+import java.text.NumberFormat
 import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
-    var transactions = ArrayList<Transaction>()
     lateinit var transactionAdapter: TransactionAdapter
 
     private val vm: TransactionViewModel by viewModels{
@@ -33,13 +33,14 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         }
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
+        recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = transactionAdapter
 
         vm.allTransactions.observe(this) {
             vm.updateDashboard(it)
-            balance.text = "$ %.2f".format(vm.totalAmount)
-            budget.text = "$ %.2f".format(vm.budgetAmount)
-            expense.text = "$ %.2f".format(vm.expenseAmount)
+            balance.text = formattedAmount(vm.totalAmount)
+            budget.text = formattedAmount(vm.budgetAmount)
+            expense.text = formattedAmount(vm.expenseAmount)
             transactionAdapter.submitList(it)
         }
 
@@ -64,6 +65,10 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         }
     }
+
+    fun formattedAmount(amount:Double): String =
+        NumberFormat.getCurrencyInstance().format(amount)
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_item, menu)
 
@@ -92,9 +97,9 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             list.let {
                 transactionAdapter.submitList(it)
                 vm.updateDashboard(it)
-                balance.text = "$ %.2f".format(vm.totalAmount)
-                budget.text = "$ %.2f".format(vm.budgetAmount)
-                expense.text = "$ %.2f".format(vm.expenseAmount)
+                balance.text = formattedAmount(vm.totalAmount)
+                budget.text = formattedAmount(vm.budgetAmount)
+                expense.text = formattedAmount(vm.expenseAmount)
 
             }
         }

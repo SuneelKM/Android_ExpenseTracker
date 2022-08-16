@@ -1,8 +1,8 @@
 package com.example.expensetracker
 
 
-import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
@@ -16,8 +16,8 @@ import com.example.expensetracker.databinding.TransactionLayoutBinding
 class TransactionAdapter(private val onItemClicked: (Transaction) -> Unit) :
     ListAdapter<Transaction, TransactionAdapter.TransactionHolder>(DiffCallback) {
 
-    class TransactionHolder(private var binding: TransactionLayoutBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class TransactionHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private var binding = TransactionLayoutBinding.bind(view)
 
         fun bind(transaction: Transaction) {
             binding.labelT.text = transaction.label
@@ -25,7 +25,8 @@ class TransactionAdapter(private val onItemClicked: (Transaction) -> Unit) :
             val context = binding.labelT.context
             if (transaction.amount >= 0) {
                 binding.amountT.setTextColor(ContextCompat.getColor(context, R.color.green))
-            } else binding.amountT.setTextColor(ContextCompat.getColor(context, R.color.red))
+            }
+            else binding.amountT.setTextColor(ContextCompat.getColor(context, R.color.red))
 
             binding.amountT.text = transaction.getFormattedAmount()
             binding.dateT.text = transaction.getFormattedDate()
@@ -34,9 +35,11 @@ class TransactionAdapter(private val onItemClicked: (Transaction) -> Unit) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionHolder {
-        return TransactionHolder(
-            TransactionLayoutBinding.inflate(LayoutInflater.from(parent.context))
-        )
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.transaction_layout, parent, false)
+        return TransactionHolder(view)
+//        return TransactionHolder(
+//            TransactionLayoutBinding.inflate(LayoutInflater.from(parent.context))
+//        )
     }
 
     override fun onBindViewHolder(holder: TransactionHolder, position: Int) {
@@ -52,11 +55,11 @@ class TransactionAdapter(private val onItemClicked: (Transaction) -> Unit) :
     companion object {
         private val DiffCallback = object : DiffUtil.ItemCallback<Transaction>() {
             override fun areItemsTheSame(oldItem: Transaction, newItem: Transaction): Boolean {
-                return oldItem === newItem
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: Transaction, newItem: Transaction): Boolean {
-                return oldItem.date == newItem.date
+                return oldItem == newItem
             }
         }
     }
