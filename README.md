@@ -8,6 +8,7 @@
 <li> Added Field Validation Checks </li>
 <li> Can Add/Delete/Update the Savings or Expense </li>
 <li> Can search or sort the Savings or Expense </li>  
+<li> Used Preferences dataStore to save the sort order </li>
 </ul>
 
 
