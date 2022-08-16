@@ -5,23 +5,17 @@ import androidx.lifecycle.*
 import com.example.expensetracker.database.AppDatabase.Companion.getDatabase
 import com.example.expensetracker.database.Transaction.Transaction
 import kotlinx.coroutines.launch
+import java.text.NumberFormat
 
 class TransactionViewModel(app: Application):AndroidViewModel(app){
 
     private val repo = TransactionRepository(getDatabase(app))
 
-    lateinit var allTransactions: LiveData<List<Transaction>>
     var totalAmount = 0.0
     var budgetAmount = 0.0
     var expenseAmount = 0.0
 
-    init {
-        getAllTransactions()
-    }
-
-    private fun getAllTransactions() {
-        allTransactions = repo.getAll().asLiveData()
-    }
+    fun getAllTransactions(isAsc:Boolean) = repo.getAll(isAsc).asLiveData()
 
     fun insertTransaction(transaction: Transaction) = viewModelScope.launch {
         repo.insertAll(transaction)
@@ -37,13 +31,8 @@ class TransactionViewModel(app: Application):AndroidViewModel(app){
         return repo.getById(transaction).asLiveData()
     }
 
-    fun sortAsc() : LiveData<List<Transaction>> {
-        return repo.sortAsc().asLiveData()
-    }
-
-
-    fun searchDatabase(searchQuery: String): LiveData<List<Transaction>> {
-        return repo.searchDatabase(searchQuery).asLiveData()
+    fun searchDatabase(searchQuery: String, isAsc:Boolean): LiveData<List<Transaction>> {
+        return repo.searchDatabase(searchQuery, isAsc).asLiveData()
     }
 
     fun updateDashboard(transactions: List<Transaction>) {
@@ -51,6 +40,9 @@ class TransactionViewModel(app: Application):AndroidViewModel(app){
         budgetAmount = transactions.filter { it.amount > 0 }.map { it.amount }.sum()
         expenseAmount = totalAmount - budgetAmount
     }
+
+    fun formattedAmount(amount:Double): String =
+        NumberFormat.getCurrencyInstance().format(amount)
 
     class TransactionViewModelFactory(private val app: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

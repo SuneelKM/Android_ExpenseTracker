@@ -6,17 +6,20 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.expensetracker.database.Transaction.Transaction
+import com.example.expensetracker.data.SettingsDataStore
 import kotlinx.android.synthetic.main.activity_main.*
-import java.text.NumberFormat
-import kotlin.collections.ArrayList
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
-    lateinit var transactionAdapter: TransactionAdapter
+    private lateinit var transactionAdapter: TransactionAdapter
+    private lateinit var settingsDataStore: SettingsDataStore
+    private var isAsc:Boolean = false
 
     private val vm: TransactionViewModel by viewModels{
         TransactionViewModel.TransactionViewModelFactory(application)
@@ -25,6 +28,18 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        settingsDataStore = SettingsDataStore(this)
+        settingsDataStore.preferenceFlow.asLiveData().observe(this) { boolean ->
+            isAsc = boolean
+            vm.getAllTransactions(isAsc).observe(this) {
+                vm.updateDashboard(it)
+                balance.text = vm.formattedAmount(vm.totalAmount)
+                budget.text = vm.formattedAmount(vm.budgetAmount)
+                expense.text = vm.formattedAmount(vm.expenseAmount)
+                transactionAdapter.submitList(it)
+            }
+        }
 
         transactionAdapter = TransactionAdapter {
             val intent = Intent(this, DetailedActivity::class.java)
@@ -36,38 +51,18 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = transactionAdapter
 
-        vm.allTransactions.observe(this) {
-            vm.updateDashboard(it)
-            balance.text = formattedAmount(vm.totalAmount)
-            budget.text = formattedAmount(vm.budgetAmount)
-            expense.text = formattedAmount(vm.expenseAmount)
-            transactionAdapter.submitList(it)
-        }
-
         addBtn.setOnClickListener {
             val intent = Intent(this, AddTransactionActivity::class.java)
             startActivity(intent)
         }
 
-        var sort = "desc"
-        sortButton.setOnClickListener{
-            sort = if(sort == "desc") {
-                vm.sortAsc().observe(this) {
-                    transactionAdapter.submitList(it)
-                }
-                "asc"
-            } else {
-                vm.allTransactions.observe(this) {
-                    transactionAdapter.submitList(it)
-                }
-                "desc"
+        sortButton.setOnClickListener {
+            isAsc = !isAsc
+            lifecycleScope.launch {
+                settingsDataStore.saveLayoutToPreferencesStore(isAsc, this@MainActivity)
             }
-
         }
     }
-
-    fun formattedAmount(amount:Double): String =
-        NumberFormat.getCurrencyInstance().format(amount)
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_item, menu)
@@ -93,13 +88,13 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private fun searchDatabase(query: String) {
         val searchQuery = "%$query%"
 
-        vm.searchDatabase(searchQuery).observe(this) { list ->
+        vm.searchDatabase(searchQuery, isAsc).observe(this) { list ->
             list.let {
                 transactionAdapter.submitList(it)
                 vm.updateDashboard(it)
-                balance.text = formattedAmount(vm.totalAmount)
-                budget.text = formattedAmount(vm.budgetAmount)
-                expense.text = formattedAmount(vm.expenseAmount)
+                balance.text = vm.formattedAmount(vm.totalAmount)
+                budget.text = vm.formattedAmount(vm.budgetAmount)
+                expense.text = vm.formattedAmount(vm.expenseAmount)
 
             }
         }

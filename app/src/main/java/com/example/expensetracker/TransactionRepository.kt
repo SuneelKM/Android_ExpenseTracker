@@ -5,12 +5,12 @@ import com.example.expensetracker.database.Transaction.Transaction
 import kotlinx.coroutines.flow.Flow
 
 
-class TransactionRepository(private val database: AppDatabase) {
+class TransactionRepository(database: AppDatabase) {
 
     private var db = database.transactionDao()
 
-    fun getAll(): Flow<List<Transaction>> {
-        return db.getAll()
+    fun getAll(isAsc:Boolean): Flow<List<Transaction>> {
+        return db.getAll(isAsc)
     }
 
     fun getById(transaction: Int): Flow<Transaction>{
@@ -28,11 +28,8 @@ class TransactionRepository(private val database: AppDatabase) {
         db.update(transaction)
     }
 
-    fun searchDatabase(searchQuery: String): Flow<List<Transaction>> {
-        return db.searchDatabase(searchQuery)
-    }
-    fun sortAsc(): Flow<List<Transaction>> {
-        return db.sortAsc()
+    fun searchDatabase(searchQuery: String, isAsc:Boolean): Flow<List<Transaction>> {
+        return db.searchDatabase(searchQuery, isAsc)
     }
 
 }
