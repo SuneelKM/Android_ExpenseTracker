@@ -31,6 +31,7 @@ class DetailedActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detailed)
         val transactionId = intent.getIntExtra("transactionId", -1)
+        title = "Edit Expense"
 
         vm.getTransactionById(transactionId).observe(this) {
             it?.let {

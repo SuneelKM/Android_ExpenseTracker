@@ -31,6 +31,7 @@ class AddTransactionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_transaction)
+        title = "Add Expense"
 
         addRootView.setOnClickListener {
             this.window.decorView.clearFocus()
