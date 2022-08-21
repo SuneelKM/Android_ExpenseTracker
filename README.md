@@ -13,9 +13,9 @@
 
 
 
-  ### Home
+  ### Demo
   
-<img src = "https://github.com/SuneelKM/Android_ExpenseTracker/blob/main/screenshot/Expense%20Tracker.gif" width=432 height=936>
+<img src = "https://github.com/SuneelKM/Android_ExpenseTracker/blob/main/screenshot/Expense%20Tracker.gif" width=350 height=736>
 
 <!-- 
 <img src = "https://github.com/SuneelKM/ExpenseTracker/blob/main/screenshot/expense%20tracker.png" width=432 height=936>
