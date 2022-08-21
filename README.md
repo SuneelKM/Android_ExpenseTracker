@@ -14,7 +14,10 @@
 
 
   ### Home
+  
+<img src = "https://github.com/SuneelKM/Android_ExpenseTracker/blob/main/screenshot/Expense%20Tracker.gif" width=432 height=936>
 
+<!-- 
 <img src = "https://github.com/SuneelKM/ExpenseTracker/blob/main/screenshot/expense%20tracker.png" width=432 height=936>
 
 ### Add Transaction
@@ -24,6 +27,8 @@
 ### Delete/Update Transaction
 
 <img src = "https://github.com/SuneelKM/ExpenseTracker/blob/main/screenshot/Update%20and%20delete.png" width=432 height=936>
+
+-->
 
 ## To run the app
 * Clone the Repo
